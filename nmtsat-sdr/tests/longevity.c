@@ -700,6 +700,7 @@ sdr_ok:
     /* ---- Phase 3: re-sync after gain disruption --------------------- */
     LOG_HEADER("\n----- Longevity: Calibrating (pass 2) -----");
 
+    for (int s = 0; s < n_sdrs; s++) ring_flush(&rings[s]);
     for (int p = 0; p < n_sdrs - 1; p++) lag.calibrated[p] = 0;
 
     volatile int proc_stop2 = 0;
@@ -810,6 +811,7 @@ sdr_ok:
         adjust_gains(sdrs, rings, n_sdrs);
 
         /* Pass 2: xcorr re-calibration after gain disruption */
+        for (int s = 0; s < n_sdrs; s++) ring_flush(&rings[s]);
         for (int p = 0; p < n_sdrs - 1; p++) lag.calibrated[p] = 0;
 
         volatile int rs2_stop = 0;
