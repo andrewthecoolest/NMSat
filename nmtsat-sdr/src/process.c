@@ -324,14 +324,14 @@ void *processing_thread(void *arg)
                         int32_t mean0 = (int32_t)(sum0 / WINDOW_SIZE);
                         int32_t meani = (int32_t)(sumi / WINDOW_SIZE);
 
-                        int32_t best_score = INT32_MIN;
+                        int64_t best_score = INT64_MIN;
                         int     best_lag   = 0;
                         for (int d = -XCORR_MAX_LAG; d <= XCORR_MAX_LAG; d++) {
-                            int32_t score = 0;
+                            int64_t score = 0;
                             for (int k = 0; k < WINDOW_SIZE; k++) {
                                 int j = k + d;
                                 if (j < 0 || j >= WINDOW_SIZE) continue;
-                                score += ((int32_t)f0[k] - mean0) * ((int32_t)fi[j] - meani);
+                                score += (int64_t)((int32_t)f0[k] - mean0) * ((int32_t)fi[j] - meani);
                             }
                             if (score > best_score) { best_score = score; best_lag = d; }
                         }
